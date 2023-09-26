@@ -1,11 +1,9 @@
-import TextEditor from "./TextEditor";
+import TextEditor from "./TextEditor/TextEditor";
 
 const App = () => {
   return (
     <>
-      <div>
-        <TextEditor />
-      </div>
+      <TextEditor />
     </>
   );
 };
