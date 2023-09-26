@@ -12,7 +12,12 @@ const socket = new io.Server(config.PORT, {
 });
 
 socket.on("connection", (socket) => {
-  socket.on("send-changes", (delta) => {
-    socket.broadcast.emit("receive-changes", delta);
+  socket.on("get-document", (documentId: string) => {
+    const data = "";
+    socket.join(documentId);
+    socket.emit("load-document", data);
+    socket.on("send-changes", (delta) => {
+      socket.broadcast.to(documentId).emit("receive-changes", delta);
+    });
   });
 });

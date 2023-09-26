@@ -4,21 +4,19 @@ import { useCallback, useEffect, useState } from "react";
 import "./style.css";
 
 import { Socket, io } from "socket.io-client";
+import { useParams } from "react-router-dom";
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL as string;
 
 const TOOLBAR_OPTIONS = [
   ["bold", "italic", "underline", "strike"], // toggled buttons
   ["image", "blockquote", "code-block"],
-
   [{ header: 1 }, { header: 2 }], // custom button values
   [{ list: "ordered" }, { list: "bullet" }],
   [{ script: "sub" }, { script: "super" }], // superscript/subscript
   [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
   [{ direction: "rtl" }], // text direction
-
   [{ header: [1, 2, 3, 4, 5, 6, false] }],
-
   [{ color: [] }, { background: [] }], // dropdown with defaults from theme
   [{ font: [] }],
   [{ align: [] }],
@@ -27,6 +25,8 @@ const TOOLBAR_OPTIONS = [
 ];
 
 const TextEditor = () => {
+  const { id: documentId } = useParams();
+
   const [socket, setSocket] = useState<Socket>();
   const [quill, setQuill] = useState<Quill>();
 
@@ -49,6 +49,8 @@ const TextEditor = () => {
         toolbar: TOOLBAR_OPTIONS,
       },
     });
+    q.disable();
+    q.setText("Loading...");
     setQuill(q);
   }, []);
 
@@ -76,6 +78,15 @@ const TextEditor = () => {
       socket.off("receive-changes", handler);
     };
   }, [socket, quill]);
+
+  useEffect(() => {
+    if (socket == null || quill == null) return;
+    socket.once("load-document", (document: any) => {
+      quill.setContents(document);
+      quill.enable();
+    });
+    socket.emit("get-document", documentId);
+  }, [socket, quill, documentId]);
 
   return (
     <>
