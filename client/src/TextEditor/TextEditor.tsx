@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL as string;
 
+const SAVE_TIME_MS: number = 2000;
 const TOOLBAR_OPTIONS = [
   ["bold", "italic", "underline", "strike"], // toggled buttons
   ["image", "blockquote", "code-block"],
@@ -81,11 +82,22 @@ const TextEditor = () => {
 
   useEffect(() => {
     if (socket == null || quill == null) return;
-    socket.once("load-document", (document: any) => {
+    socket.once("load-document", (document) => {
       quill.setContents(document);
       quill.enable();
     });
     socket.emit("get-document", documentId);
+  }, [socket, quill, documentId]);
+
+  useEffect(() => {
+    if (socket == null || quill == null) return;
+    const interval = setInterval(() => {
+      socket.emit("save-changes", quill.getContents());
+    }, SAVE_TIME_MS);
+
+    return () => {
+      clearInterval(interval);
+    };
   }, [socket, quill, documentId]);
 
   return (
