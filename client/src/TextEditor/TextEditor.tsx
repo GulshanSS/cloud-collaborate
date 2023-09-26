@@ -1,7 +1,11 @@
-import Quill from "quill";
+import Quill, { Sources } from "quill";
 import "quill/dist/quill.snow.css";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./style.css";
+
+import { Socket, io } from "socket.io-client";
+
+const SERVER_URL = import.meta.env.VITE_SERVER_URL as string;
 
 const TOOLBAR_OPTIONS = [
   ["bold", "italic", "underline", "strike"], // toggled buttons
@@ -23,18 +27,55 @@ const TOOLBAR_OPTIONS = [
 ];
 
 const TextEditor = () => {
+  const [socket, setSocket] = useState<Socket>();
+  const [quill, setQuill] = useState<Quill>();
+
+  useEffect(() => {
+    const s = io(SERVER_URL);
+    setSocket(s);
+    return () => {
+      s.disconnect();
+    };
+  }, []);
+
   const wrapperRef = useCallback((wrapper: HTMLDivElement) => {
     if (wrapper === null) return;
     wrapper.innerHTML = "";
     const editor = document.createElement("div");
     wrapper.append(editor);
-    new Quill(editor, {
+    const q = new Quill(editor, {
       theme: "snow",
       modules: {
         toolbar: TOOLBAR_OPTIONS,
       },
     });
+    setQuill(q);
   }, []);
+
+  useEffect(() => {
+    if (socket == null || quill == null) return;
+    const handler = (delta: any, _: any, source: Sources) => {
+      if (source !== "user") return;
+      socket.emit("send-changes", delta);
+    };
+    quill.on("text-change", handler);
+
+    return () => {
+      quill.off("text-change", handler);
+    };
+  }, [socket, quill]);
+
+  useEffect(() => {
+    if (socket == null || quill == null) return;
+    const handler = (delta: any) => {
+      quill.updateContents(delta);
+    };
+    socket.on("receive-changes", handler);
+
+    return () => {
+      socket.off("receive-changes", handler);
+    };
+  }, [socket, quill]);
 
   return (
     <>
