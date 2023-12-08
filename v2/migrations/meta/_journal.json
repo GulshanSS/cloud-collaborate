@@ -1,0 +1,20 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1701676455050,
+      "tag": "0000_young_lethal_legion",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1701678430865,
+      "tag": "0001_puzzling_wolf_cub",
+      "breakpoints": true
+    }
+  ]
+}
