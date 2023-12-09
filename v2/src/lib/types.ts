@@ -29,3 +29,11 @@ export const SignUpFormSchema = z
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
+
+export const CreateWorkspaceSchema = z.object({
+  workspaceName: z
+    .string()
+    .describe("Workspace Name")
+    .min(1, "Workspace name is required"),
+  logo: z.any(),
+});

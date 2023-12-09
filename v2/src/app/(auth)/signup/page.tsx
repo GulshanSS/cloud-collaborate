@@ -31,13 +31,13 @@ const SignUpPage = () => {
 
   const codeExchangeError = useMemo(() => {
     if (!searchParams) return "";
-    return searchParams.get("error_descripttion");
+    return searchParams.get("error_description");
   }, [searchParams]);
 
   const confirmationAndErrorStyles = useMemo(
     () =>
       clsx("bg-slate", {
-        "bg-red-500": codeExchangeError,
+        "bg-red-500/20": codeExchangeError,
         "border-red-500": codeExchangeError,
         "text-red-500": codeExchangeError,
       }),
