@@ -21,6 +21,42 @@ export type Json =
 export interface Database {
   "cloud-collaborate-v2": {
     Tables: {
+      collborators: {
+        Row: {
+          created_At: string;
+          id: string;
+          user_id: string;
+          workspace_id: string;
+        };
+        Insert: {
+          created_At?: string;
+          id?: string;
+          user_id: string;
+          workspace_id: string;
+        };
+        Update: {
+          created_At?: string;
+          id?: string;
+          user_id?: string;
+          workspace_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "collborators_user_id_users_id_fk";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "collborators_workspace_id_workspaces_id_fk";
+            columns: ["workspace_id"];
+            isOneToOne: false;
+            referencedRelation: "workspaces";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
       customers: {
         Row: {
           id: string;
@@ -47,37 +83,34 @@ export interface Database {
       files: {
         Row: {
           banner_url: string | null;
-          created_At: string | null;
+          created_At: string;
           data: string | null;
           folder_id: string | null;
           icon_id: string;
           id: string;
           in_trash: string | null;
-          logo: string | null;
           title: string;
           workspace_id: string | null;
         };
         Insert: {
           banner_url?: string | null;
-          created_At?: string | null;
+          created_At?: string;
           data?: string | null;
           folder_id?: string | null;
           icon_id: string;
           id?: string;
           in_trash?: string | null;
-          logo?: string | null;
           title: string;
           workspace_id?: string | null;
         };
         Update: {
           banner_url?: string | null;
-          created_At?: string | null;
+          created_At?: string;
           data?: string | null;
           folder_id?: string | null;
           icon_id?: string;
           id?: string;
           in_trash?: string | null;
-          logo?: string | null;
           title?: string;
           workspace_id?: string | null;
         };
@@ -101,34 +134,31 @@ export interface Database {
       folders: {
         Row: {
           banner_url: string | null;
-          created_At: string | null;
+          created_At: string;
           data: string | null;
           icon_id: string;
           id: string;
           in_trash: string | null;
-          logo: string | null;
           title: string;
           workspace_id: string | null;
         };
         Insert: {
           banner_url?: string | null;
-          created_At?: string | null;
+          created_At?: string;
           data?: string | null;
           icon_id: string;
           id?: string;
           in_trash?: string | null;
-          logo?: string | null;
           title: string;
           workspace_id?: string | null;
         };
         Update: {
           banner_url?: string | null;
-          created_At?: string | null;
+          created_At?: string;
           data?: string | null;
           icon_id?: string;
           id?: string;
           in_trash?: string | null;
-          logo?: string | null;
           title?: string;
           workspace_id?: string | null;
         };
@@ -197,6 +227,13 @@ export interface Database {
         Relationships: [
           {
             foreignKeyName: "prices_product_id_fkey";
+            columns: ["product_id"];
+            isOneToOne: false;
+            referencedRelation: "products";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "prices_product_id_products_id_fk";
             columns: ["product_id"];
             isOneToOne: false;
             referencedRelation: "products";
@@ -298,6 +335,13 @@ export interface Database {
             referencedColumns: ["id"];
           },
           {
+            foreignKeyName: "subscriptions_price_id_prices_id_fk";
+            columns: ["price_id"];
+            isOneToOne: false;
+            referencedRelation: "prices";
+            referencedColumns: ["id"];
+          },
+          {
             foreignKeyName: "subscriptions_user_id_fkey";
             columns: ["user_id"];
             isOneToOne: false;
@@ -347,7 +391,7 @@ export interface Database {
       workspaces: {
         Row: {
           banner_url: string | null;
-          created_At: string | null;
+          created_At: string;
           data: string | null;
           icon_id: string;
           id: string;
@@ -358,7 +402,7 @@ export interface Database {
         };
         Insert: {
           banner_url?: string | null;
-          created_At?: string | null;
+          created_At?: string;
           data?: string | null;
           icon_id: string;
           id?: string;
@@ -369,7 +413,7 @@ export interface Database {
         };
         Update: {
           banner_url?: string | null;
-          created_At?: string | null;
+          created_At?: string;
           data?: string | null;
           icon_id?: string;
           id?: string;

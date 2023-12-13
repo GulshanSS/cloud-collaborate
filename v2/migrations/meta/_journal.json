@@ -15,6 +15,34 @@
       "when": 1701678430865,
       "tag": "0001_puzzling_wolf_cub",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1702118750346,
+      "tag": "0002_goofy_mister_sinister",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1702213765294,
+      "tag": "0003_goofy_black_tarantula",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1702216976833,
+      "tag": "0004_daffy_prowler",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1702389779387,
+      "tag": "0005_volatile_puma",
+      "breakpoints": true
     }
   ]
 }

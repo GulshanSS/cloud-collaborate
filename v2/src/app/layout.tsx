@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/lib/providers/next-themes-provider";
 import { Toaster } from "@/components/ui/toaster";
 import AppStateProvider from "@/lib/providers/state-provider";
+import { SupabaseUserProvider } from "@/lib/providers/supabase-user-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,8 +23,10 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <AppStateProvider>
-            {children}
-            <Toaster />
+            <SupabaseUserProvider>
+              {children}
+              <Toaster />
+            </SupabaseUserProvider>
           </AppStateProvider>
         </ThemeProvider>
       </body>
