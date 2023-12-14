@@ -82,6 +82,27 @@ export const deleteWorkspace = async (workspaceId: string) => {
   await db.delete(workspaces).where(eq(workspaces.id, workspaceId));
 };
 
+export const getWorkspaceDetails = async (workspaceId: string) => {
+  const isValid = validate(workspaceId);
+  if (!isValid) return { data: [], error: "Error" };
+  try {
+    const result = (await db.query.workspaces.findMany({
+      where: (workspace, { eq }) => eq(workspace.id, workspaceId),
+    })) as Workspace[];
+
+    return {
+      data: result,
+      error: null,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      data: [],
+      error: "Error",
+    };
+  }
+};
+
 export const getFolders = async (workspaceId: string) => {
   const isValid = validate(workspaceId);
   if (!isValid) {
@@ -249,6 +270,42 @@ export const updateFolder = async (
   }
 };
 
+export const deleteFolder = async (folderId: string) => {
+  try {
+    await db.delete(folders).where(eq(folders.id, folderId));
+    return {
+      data: null,
+      error: null,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      data: null,
+      error: "Error",
+    };
+  }
+};
+
+export const getFolderDetails = async (folderId: string) => {
+  const isValid = validate(folderId);
+  if (!isValid) return { data: [], error: "Error" };
+  try {
+    const result = (await db.query.folders.findMany({
+      where: (folder, { eq }) => eq(folder.id, folderId),
+    })) as Folder[];
+    return {
+      data: result,
+      error: null,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      data: [],
+      error: "Error",
+    };
+  }
+};
+
 export const getFiles = async (folderId: string) => {
   const isValid = validate(folderId);
   if (!isValid) return { data: null, error: "Error" };
@@ -283,5 +340,38 @@ export const updateFile = async (fileId: string, file: Partial<File>) => {
   } catch (error) {
     console.log(error);
     return { data: null, error: "Error" };
+  }
+};
+
+export const deleteFile = async (fileId: string) => {
+  try {
+    await db.delete(files).where(eq(files.id, fileId));
+    return { data: null, error: null };
+  } catch (error) {
+    console.log(error);
+    return {
+      data: null,
+      error: "Error",
+    };
+  }
+};
+
+export const getFileDetails = async (fileId: string) => {
+  const isValid = validate(fileId);
+  if (!isValid) return { data: [], error: "Error" };
+  try {
+    const result = (await db.query.files.findMany({
+      where: (file, { eq }) => eq(file.id, fileId),
+    })) as File[];
+    return {
+      data: result,
+      error: null,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      data: [],
+      error: "Error",
+    };
   }
 };
