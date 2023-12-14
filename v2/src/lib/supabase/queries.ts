@@ -135,7 +135,7 @@ export const getFolders = async (workspaceId: string) => {
 export const getPrivateWorkspaces = async (userId: string) => {
   if (!userId) return [];
   const privateWorkspaces = (await db
-    .select({
+    .selectDistinct({
       id: workspaces.id,
       createdAt: workspaces.createdAt,
       workspaceOwner: workspaces.workspaceOwner,
@@ -144,6 +144,7 @@ export const getPrivateWorkspaces = async (userId: string) => {
       data: workspaces.data,
       inTrash: workspaces.inTrash,
       logo: workspaces.logo,
+      bannerUrl: workspaces.bannerUrl,
     })
     .from(workspaces)
     .where(
@@ -163,7 +164,7 @@ export const getPrivateWorkspaces = async (userId: string) => {
 export const getCollaborativeWorkspaces = async (userId: string) => {
   if (!userId) return [];
   const collaborativeWorkspaces = (await db
-    .select({
+    .selectDistinct({
       id: workspaces.id,
       createdAt: workspaces.createdAt,
       workspaceOwner: workspaces.workspaceOwner,
@@ -172,6 +173,7 @@ export const getCollaborativeWorkspaces = async (userId: string) => {
       data: workspaces.data,
       inTrash: workspaces.inTrash,
       logo: workspaces.logo,
+      bannerUrl: workspaces.bannerUrl,
     })
     .from(users)
     .innerJoin(collaborators, eq(users.id, collaborators.userId))
@@ -183,7 +185,7 @@ export const getCollaborativeWorkspaces = async (userId: string) => {
 export const getSharedWorkspaces = async (userId: string) => {
   if (!userId) return [];
   const sharedWorkspaces = (await db
-    .select({
+    .selectDistinct({
       id: workspaces.id,
       createdAt: workspaces.createdAt,
       workspaceOwner: workspaces.workspaceOwner,
@@ -192,6 +194,7 @@ export const getSharedWorkspaces = async (userId: string) => {
       data: workspaces.data,
       inTrash: workspaces.inTrash,
       logo: workspaces.logo,
+      bannerUrl: workspaces.bannerUrl,
     })
     .from(workspaces)
     .orderBy(workspaces.createdAt)
