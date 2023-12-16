@@ -21,13 +21,11 @@ import {
 } from "@/lib/supabase/queries";
 
 interface BannerUploadFormProps {
-  details: AppWorkspacesType | AppFoldersType | File | Folder | Workspace;
   dirType: "workspace" | "file" | "folder";
   id: string;
 }
 
 const BannerUploadForm: React.FC<BannerUploadFormProps> = ({
-  details,
   dirType,
   id,
 }) => {

@@ -61,9 +61,6 @@ export const updateWorkspace = async (
       .update(workspaces)
       .set(workspace)
       .where(eq(workspaces.id, workspaceId));
-
-    revalidatePath(`/dashboard/${workspaceId}`);
-
     return {
       data: null,
       error: null,
@@ -239,6 +236,27 @@ export const removeCollaborators = async (
         );
     }
   });
+};
+
+export const getCollaborators = async (workspaceId: string) => {
+  const response = await db
+    .select()
+    .from(collaborators)
+    .where(eq(collaborators.workspaceId, workspaceId));
+  if (!response.length) return [];
+
+  const userInformation: Promise<User | undefined>[] = response.map(
+    async (user) => {
+      const exists = await db.query.users.findFirst({
+        where: (u, { eq }) => eq(u.id, user.userId),
+      });
+      return exists;
+    }
+  );
+
+  const resolvedUsers = await Promise.all(userInformation);
+
+  return resolvedUsers.filter(Boolean) as User[];
 };
 
 export const getUserFormSearch = async (email: string) => {

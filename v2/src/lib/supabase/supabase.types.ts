@@ -85,34 +85,34 @@ export interface Database {
           banner_url: string | null;
           created_At: string;
           data: string | null;
-          folder_id: string | null;
+          folder_id: string;
           icon_id: string;
           id: string;
           in_trash: string | null;
           title: string;
-          workspace_id: string | null;
+          workspace_id: string;
         };
         Insert: {
           banner_url?: string | null;
           created_At?: string;
           data?: string | null;
-          folder_id?: string | null;
+          folder_id: string;
           icon_id: string;
           id?: string;
           in_trash?: string | null;
           title: string;
-          workspace_id?: string | null;
+          workspace_id: string;
         };
         Update: {
           banner_url?: string | null;
           created_At?: string;
           data?: string | null;
-          folder_id?: string | null;
+          folder_id?: string;
           icon_id?: string;
           id?: string;
           in_trash?: string | null;
           title?: string;
-          workspace_id?: string | null;
+          workspace_id?: string;
         };
         Relationships: [
           {
@@ -140,7 +140,7 @@ export interface Database {
           id: string;
           in_trash: string | null;
           title: string;
-          workspace_id: string | null;
+          workspace_id: string;
         };
         Insert: {
           banner_url?: string | null;
@@ -150,7 +150,7 @@ export interface Database {
           id?: string;
           in_trash?: string | null;
           title: string;
-          workspace_id?: string | null;
+          workspace_id: string;
         };
         Update: {
           banner_url?: string | null;
@@ -160,7 +160,7 @@ export interface Database {
           id?: string;
           in_trash?: string | null;
           title?: string;
-          workspace_id?: string | null;
+          workspace_id?: string;
         };
         Relationships: [
           {

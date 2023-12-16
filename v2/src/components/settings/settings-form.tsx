@@ -12,6 +12,8 @@ import { Input } from "../ui/input";
 import {
   addCollaborators,
   deleteWorkspace,
+  getCollaborativeWorkspaces,
+  getCollaborators,
   removeCollaborators,
   updateWorkspace,
 } from "@/lib/supabase/queries";
@@ -31,6 +33,16 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import Shape from "../../../public/shape.svg";
 import { Alert, AlertDescription } from "../ui/alert";
 import { toast } from "../ui/use-toast";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "../ui/alert-dialog";
 
 const SettingsForm = () => {
   const { user } = useSupabaseUser();
@@ -39,7 +51,7 @@ const SettingsForm = () => {
   const { state, workspaceId, dispatch } = useAppState();
   const [permission, setPermission] = useState("private");
   const [collaborators, setCollaborators] = useState<User[] | []>([]);
-  const [openAlertMessage, setopenAlertMessage] = useState(false);
+  const [openAlertMessage, setOpenAlertMessage] = useState(false);
   const [workspaceDetails, setWorkspaceDetails] = useState<Workspace>();
   const titleTimerRef = useRef<ReturnType<typeof setTimeout>>();
   const [uploadProfilePic, setUploadProfilePic] = useState(false);
@@ -119,11 +131,39 @@ const SettingsForm = () => {
     }
   };
 
+  const onPermissionChange = (val: string) => {
+    if (val === "private") {
+      setOpenAlertMessage(true);
+    } else {
+      setPermission(val);
+    }
+  };
+
+  const onClickAlertConfirm = async () => {
+    if (!workspaceId) return;
+    if (collaborators.length > 0) {
+      await removeCollaborators(collaborators, workspaceId);
+      setPermission("private");
+      setOpenAlertMessage(false);
+    }
+  };
+
   //fetching avatar details
 
   //get workspace details
 
   //get all the collaborators
+  useEffect(() => {
+    if (!workspaceId) return;
+    const fetchCollaborators = async () => {
+      const response = await getCollaborators(workspaceId);
+      if (response.length) {
+        setPermission("shared");
+        setCollaborators(response);
+      }
+    };
+    fetchCollaborators();
+  }, [workspaceId]);
 
   //Payment portal redirect
 
@@ -174,10 +214,7 @@ const SettingsForm = () => {
         <Label htmlFor="permission" className="text-sm text-muted-foreground">
           Permission
         </Label>
-        <Select
-          defaultValue={permission}
-          onValueChange={(val) => setPermission(val)}
-        >
+        <Select value={permission} onValueChange={onPermissionChange}>
           <SelectTrigger className="w-full h-26 -mt-3">
             <SelectValue />
           </SelectTrigger>
@@ -282,6 +319,25 @@ const SettingsForm = () => {
           </Button>
         </Alert>
       </>
+      <AlertDialog open={openAlertMessage}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Changing a Shared workspace to a Private workspace will remove all
+              collaborators permanently
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setOpenAlertMessage(false)}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction onClick={onClickAlertConfirm}>
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

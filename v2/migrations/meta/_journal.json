@@ -43,6 +43,13 @@
       "when": 1702389779387,
       "tag": "0005_volatile_puma",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1702624529479,
+      "tag": "0006_boring_longshot",
+      "breakpoints": true
     }
   ]
 }
