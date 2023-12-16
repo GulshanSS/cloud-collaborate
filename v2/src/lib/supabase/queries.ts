@@ -6,7 +6,13 @@ import db from "./db";
 import { collaborators, folders } from "./schema";
 import { File, Folder, Subscription, User, Workspace } from "./supabase.types";
 import { and, eq, ilike, notExists } from "drizzle-orm";
-import { revalidatePath } from "next/cache";
+
+export const findUser = async (userId: string) => {
+  const resposne = (await db.query.users.findFirst({
+    where: (user, { eq }) => eq(user.id, userId),
+  })) as User;
+  return resposne;
+};
 
 export const getUserSubscriptionStatus = async (userId: string) => {
   try {
