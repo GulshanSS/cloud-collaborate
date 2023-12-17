@@ -7,13 +7,11 @@ import Settings from "../settings/settings";
 interface NativeNavigationProps {
   myWorkspaceId: string;
   className?: string;
-  getSelectedElement?: (selection: string) => void;
 }
 
 const NativeNavigation: React.FC<NativeNavigationProps> = ({
   myWorkspaceId,
   className,
-  getSelectedElement,
 }) => {
   return (
     <nav className={twMerge("my-2", className)}>
