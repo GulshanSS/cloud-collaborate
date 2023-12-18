@@ -1,8 +1,9 @@
-import { HomeIcon, Settings2, Trash } from "lucide-react";
+import { HomeIcon, Settings2, Trash2Icon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { twMerge } from "tailwind-merge";
 import Settings from "../settings/settings";
+import Trash from "../trash/trash";
 
 interface NativeNavigationProps {
   myWorkspaceId: string;
@@ -31,15 +32,12 @@ const NativeNavigation: React.FC<NativeNavigationProps> = ({
             <span>Settings</span>
           </li>
         </Settings>
-        <li>
-          <Link
-            className="group/native flex text-slate-300 transition-all gap-2"
-            href={`/dashboard/${myWorkspaceId}`}
-          >
-            <Trash />
+        <Trash>
+          <li className="group/native flex text-slate-300 transition-all gap-2">
+            <Trash2Icon />
             <span>Trash</span>
-          </Link>
-        </li>
+          </li>
+        </Trash>
       </ul>
     </nav>
   );
