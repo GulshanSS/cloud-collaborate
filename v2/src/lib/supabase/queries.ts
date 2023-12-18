@@ -402,3 +402,21 @@ export const getFileDetails = async (fileId: string) => {
     };
   }
 };
+
+export const getActiveProductsWithPrice = async () => {
+  try {
+    const res = await db.query.products.findMany({
+      where: (product, { eq }) => eq(product.active, true),
+      with: {
+        prices: {
+          where: (price, { eq }) => eq(price.active, true),
+        },
+      },
+    });
+    if (res.length) return { data: res, error: null };
+    return { data: [], error: null };
+  } catch (error) {
+    console.log(error);
+    return { data: [], error: "Error" };
+  }
+};

@@ -160,7 +160,9 @@ const DashboardSetup: React.FC<DashboardSetupProps> = ({
                     required: "Workspace name is required",
                   })}
                 />
-                <small className="text-red-600">{errors?.workspaceName?.message?.toString()}</small>
+                <small className="text-red-600">
+                  {errors?.workspaceName?.message?.toString()}
+                </small>
               </div>
             </div>
             <div className="flex items-center gap-4">
@@ -173,11 +175,16 @@ const DashboardSetup: React.FC<DashboardSetupProps> = ({
                   type="file"
                   accept="image/*"
                   className="bg-inherit"
-                  //disabled={isLoading || subscription?.status !== "active"}
+                  disabled={isLoading || subscription?.status !== "active"}
                   {...register("logo", {
                     required: false,
                   })}
                 />
+                {subscription?.status !== "active" && (
+                  <small className="text-muted-foreground">
+                    To customize your workspace, you need to be on a Pro plan
+                  </small>
+                )}
                 <small className="text-red-600">
                   {errors?.logo?.message?.toString()}
                 </small>

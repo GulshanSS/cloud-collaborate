@@ -9,7 +9,7 @@ import {
   timestamp,
   uuid,
 } from "drizzle-orm/pg-core";
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 
 export const cloudCollaborateV2 = pgSchema("cloud-collaborate-v2");
 
@@ -35,8 +35,9 @@ export const workspaces = cloudCollaborateV2.table("workspaces", {
   createdAt: timestamp("created_At", {
     withTimezone: true,
     mode: "string",
-  }).defaultNow()
-  .notNull(),
+  })
+    .defaultNow()
+    .notNull(),
   workspaceOwner: uuid("workspace_owner").notNull(),
   title: text("title").notNull(),
   iconId: text("icon_id").notNull(),
@@ -51,16 +52,19 @@ export const folders = cloudCollaborateV2.table("folders", {
   createdAt: timestamp("created_At", {
     withTimezone: true,
     mode: "string",
-  }).defaultNow()
-  .notNull(),
+  })
+    .defaultNow()
+    .notNull(),
   title: text("title").notNull(),
   iconId: text("icon_id").notNull(),
   data: text("data"),
   inTrash: text("in_trash"),
   bannerUrl: text("banner_url"),
-  workspaceId: uuid("workspace_id").notNull().references(() => workspaces.id, {
-    onDelete: "cascade",
-  }),
+  workspaceId: uuid("workspace_id")
+    .notNull()
+    .references(() => workspaces.id, {
+      onDelete: "cascade",
+    }),
 });
 
 export const files = cloudCollaborateV2.table("files", {
@@ -68,19 +72,24 @@ export const files = cloudCollaborateV2.table("files", {
   createdAt: timestamp("created_At", {
     withTimezone: true,
     mode: "string",
-  }).defaultNow()
-  .notNull(),
+  })
+    .defaultNow()
+    .notNull(),
   title: text("title").notNull(),
   iconId: text("icon_id").notNull(),
   data: text("data"),
   inTrash: text("in_trash"),
   bannerUrl: text("banner_url"),
-  workspaceId: uuid("workspace_id").notNull().references(() => workspaces.id, {
-    onDelete: "cascade",
-  }),
-  folderId: uuid("folder_id").notNull().references(() => folders.id, {
-    onDelete: "cascade",
-  }),
+  workspaceId: uuid("workspace_id")
+    .notNull()
+    .references(() => workspaces.id, {
+      onDelete: "cascade",
+    }),
+  folderId: uuid("folder_id")
+    .notNull()
+    .references(() => folders.id, {
+      onDelete: "cascade",
+    }),
 });
 
 export const users = cloudCollaborateV2.table("users", {
@@ -185,3 +194,14 @@ export const collaborators = cloudCollaborateV2.table("collborators", {
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
 });
+
+export const productsRelations = relations(products, ({ many }) => ({
+  prices: many(prices),
+}));
+
+export const pricesRelations = relations(prices, ({ one }) => ({
+  products: one(products, {
+    fields: [prices.productId],
+    references: [products.id],
+  }),
+}));
