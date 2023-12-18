@@ -11,6 +11,7 @@ import { createFolder } from "@/lib/supabase/queries";
 import { toast } from "../ui/use-toast";
 import { Accordion } from "../ui/accordion";
 import Dropdown from "./dropdown";
+import useSupabaseRealtime from "@/lib/hooks/useSupabaseRealtime";
 
 interface FoldersDropdownListProps {
   workspaceFolders: Folder[];
@@ -21,8 +22,7 @@ const FoldersDropdownList: React.FC<FoldersDropdownListProps> = ({
   workspaceFolders,
   workspaceId,
 }) => {
-  // local state folders
-  // set real time updates
+  useSupabaseRealtime();
   const { state, dispatch, folderId } = useAppState();
   const [folders, setFolders] = useState<Folder[]>(workspaceFolders);
   const { subscription } = useSupabaseUser();
