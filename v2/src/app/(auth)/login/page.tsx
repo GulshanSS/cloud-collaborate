@@ -95,7 +95,7 @@ const LoginPage = () => {
         </Button>
         {submitError && <FormMessage>{submitError}</FormMessage>}
         <FormDescription className="self-container">
-          Don't have an account?
+          Don&apos;t have an account?
           <Link href="/signup" className="ml-2 text-red-500 font-extrabold">
             Sign Up
           </Link>
