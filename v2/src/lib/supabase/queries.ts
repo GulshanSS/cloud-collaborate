@@ -60,8 +60,7 @@ export const updateWorkspace = async (
   workspaceId: string,
   workspace: Partial<Workspace>
 ) => {
-  const isValid = validate(workspaceId);
-  if (!isValid) return { data: null, error: "Error" };
+  if(!workspaceId) return;
   try {
     await db
       .update(workspaces)

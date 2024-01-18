@@ -81,7 +81,7 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
   const pathname = usePathname();
   const [saving, setSaving] = useState(false);
   const [deletingBanner, setDeletingBanner] = useState(false);
-  const [localCursors, setLocalCursors] = useState<any[]>([]);
+  const [localCursors, setLocalCursors] = useState<any>([]);
 
   const details = useMemo(() => {
     let selectedDir;
