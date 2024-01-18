@@ -8,11 +8,11 @@ import { PlusIcon } from "lucide-react";
 import { useSupabaseUser } from "@/lib/providers/supabase-user-provider";
 import { v4 } from "uuid";
 import { createFolder } from "@/lib/supabase/queries";
-import { toast } from "../ui/use-toast";
 import { Accordion } from "../ui/accordion";
 import Dropdown from "./dropdown";
 import useSupabaseRealtime from "@/lib/hooks/useSupabaseRealtime";
 import { useSubscriptionModal } from "@/lib/providers/subscription-modal-provider";
+import { useToast } from "../ui/use-toast";
 
 interface FoldersDropdownListProps {
   workspaceFolders: Folder[];
@@ -28,6 +28,7 @@ const FoldersDropdownList: React.FC<FoldersDropdownListProps> = ({
   const { open, setOpen } = useSubscriptionModal();
   const [folders, setFolders] = useState<Folder[]>(workspaceFolders);
   const { subscription } = useSupabaseUser();
+  const { toast } = useToast();
 
   //useEffect to set inital state server app state
   useEffect(() => {

@@ -4,7 +4,7 @@ import { useAppState } from "@/lib/providers/state-provider";
 import { Subscription } from "@/lib/supabase/supabase.types";
 import React, { useEffect, useState } from "react";
 import { Progress } from "../ui/progress";
-import { DiamondIcon, LucideDiamond, PercentDiamond } from "lucide-react";
+import { PercentDiamond } from "lucide-react";
 
 interface PlanUsageProps {
   foldersLength: number;

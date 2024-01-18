@@ -446,18 +446,15 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
       const quillLenght = quill.getLength();
       saveTimerRef.current = setTimeout(async () => {
         if (contents && quillLenght !== 1 && fileId) {
-          if (dirType === "file") {
-            if (!workspaceId || !folderId) return;
+          if (dirType === "workspace") {
             dispatch({
-              type: "UPDATE_FILE",
+              type: "UPDATE_WORKSPACE",
               payload: {
-                file: { data: JSON.stringify(contents) },
-                fileId,
-                folderId,
-                workspaceId,
+                workspace: { data: JSON.stringify(contents) },
+                workspaceId: fileId,
               },
             });
-            await updateFile(fileId, { data: JSON.stringify(contents) });
+            await updateWorkspace(fileId, { data: JSON.stringify(contents) });
           }
 
           if (dirType === "folder") {
@@ -473,15 +470,18 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
             await updateFolder(fileId, { data: JSON.stringify(contents) });
           }
 
-          if (dirType === "workspace") {
+          if (dirType === "file") {
+            if (!workspaceId || !folderId) return;
             dispatch({
-              type: "UPDATE_WORKSPACE",
+              type: "UPDATE_FILE",
               payload: {
-                workspace: { data: JSON.stringify(contents) },
-                workspaceId: fileId,
+                file: { data: JSON.stringify(contents) },
+                fileId,
+                folderId,
+                workspaceId,
               },
             });
-            await updateWorkspace(fileId, { data: JSON.stringify(contents) });
+            await updateFile(fileId, { data: JSON.stringify(contents) });
           }
         }
         setSaving(false);
@@ -497,7 +497,7 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
 
       if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
     };
-  }, [quill, socket, fileId, user, details, folderId, workspaceId]);
+  }, [quill, socket, fileId, user, details, folderId, workspaceId, dispatch]);
 
   useEffect(() => {
     if (quill === null || socket === null) return;

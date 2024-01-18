@@ -22,7 +22,7 @@ import CollaboratorSearch from "./collaborator-search";
 import { ScrollArea } from "../ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import Shape from "../../../public/shape.svg";
-import { toast } from "../ui/use-toast";
+import { useToast } from "../ui/use-toast";
 
 interface WorkspaceCreatorProps {}
 
@@ -35,6 +35,7 @@ const WorkspaceCreator: React.FC<WorkspaceCreatorProps> = () => {
   const [title, setTitle] = useState<string>("");
   const [collaborators, setCollaborators] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
 
   const addCollaborator = (user: User) => {    
     setCollaborators([...collaborators, user]);

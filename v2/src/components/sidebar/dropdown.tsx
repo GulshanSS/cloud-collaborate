@@ -12,12 +12,12 @@ import {
 import clsx from "clsx";
 import EmojiPicker from "../global/emoji-picker";
 import { addFile, updateFile, updateFolder } from "@/lib/supabase/queries";
-import { toast } from "../ui/use-toast";
 import TooltipComponent from "../global/tooltip-component";
 import { PlusIcon, Trash } from "lucide-react";
 import { File } from "@/lib/supabase/supabase.types";
 import { v4 } from "uuid";
 import { useSupabaseUser } from "@/lib/providers/supabase-user-provider";
+import { useToast } from "../ui/use-toast";
 
 interface DropdownProps {
   title: string;
@@ -42,6 +42,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   const { state, dispatch, workspaceId, folderId } = useAppState();
   const [isEditing, setIsEditing] = useState(false);
   const router = useRouter();
+  const { toast } = useToast();
 
   //folder title synced server and local
   const folderTitle: string | undefined = useMemo(() => {
@@ -379,7 +380,7 @@ const Dropdown: React.FC<DropdownProps> = ({
           </div>
         </div>
       </AccordionTrigger>
-      <AccordionContent>
+      <AccordionContent className="pb-0">
         {state.workspaces
           .find((workspace) => workspace.id === workspaceId)
           ?.folders.find((folder) => folder.id === id)

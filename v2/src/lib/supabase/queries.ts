@@ -87,9 +87,11 @@ export const getWorkspaceDetails = async (workspaceId: string) => {
   const isValid = validate(workspaceId);
   if (!isValid) return { data: [], error: "Error" };
   try {
-    const result = (await db.query.workspaces.findMany({
-      where: (workspace, { eq }) => eq(workspace.id, workspaceId),
-    })) as Workspace[];
+    const result = (await db
+      .select()
+      .from(workspaces)
+      .where(eq(workspaces.id, workspaceId))
+      .limit(1)) as Workspace[];
 
     return {
       data: result,
@@ -315,9 +317,11 @@ export const getFolderDetails = async (folderId: string) => {
   const isValid = validate(folderId);
   if (!isValid) return { data: [], error: "Error" };
   try {
-    const result = (await db.query.folders.findMany({
-      where: (folder, { eq }) => eq(folder.id, folderId),
-    })) as Folder[];
+    const result = (await db
+      .select()
+      .from(folders)
+      .where(eq(folders.id, folderId))
+      .limit(1)) as Folder[];
     return {
       data: result,
       error: null,
@@ -385,9 +389,11 @@ export const getFileDetails = async (fileId: string) => {
   const isValid = validate(fileId);
   if (!isValid) return { data: [], error: "Error" };
   try {
-    const result = (await db.query.files.findMany({
-      where: (file, { eq }) => eq(file.id, fileId),
-    })) as File[];
+    const result = (await db
+      .select()
+      .from(files)
+      .where(eq(files.id, fileId))
+      .limit(1)) as File[];
     return {
       data: result,
       error: null,

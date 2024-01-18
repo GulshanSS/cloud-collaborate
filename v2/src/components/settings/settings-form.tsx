@@ -41,7 +41,6 @@ import { ScrollArea } from "../ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import Shape from "../../../public/shape.svg";
 import { Alert, AlertDescription } from "../ui/alert";
-import { toast } from "../ui/use-toast";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -56,6 +55,7 @@ import LogoutButton from "../global/logout-button";
 import Link from "next/link";
 import { useSubscriptionModal } from "@/lib/providers/subscription-modal-provider";
 import { postData } from "@/lib/utils";
+import { useToast } from "../ui/use-toast";
 
 const SettingsForm = () => {
   const { user, subscription } = useSupabaseUser();
@@ -71,6 +71,7 @@ const SettingsForm = () => {
   const [uploadProfilePic, setUploadProfilePic] = useState(false);
   const [uploadingLogo, setUploadingLogo] = useState(false);
   const [loadingPortal, setLoadingPortal] = useState(false);
+  const { toast } = useToast();
 
   //Payment Portal
   const redirectToCustomerPortal = async () => {

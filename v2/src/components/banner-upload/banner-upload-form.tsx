@@ -13,12 +13,12 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import Loader from "../global/loader";
-import { toast } from "../ui/use-toast";
 import {
   updateFile,
   updateFolder,
   updateWorkspace,
 } from "@/lib/supabase/queries";
+import { useToast } from "../ui/use-toast";
 
 interface BannerUploadFormProps {
   dirType: "workspace" | "file" | "folder";
@@ -31,6 +31,7 @@ const BannerUploadForm: React.FC<BannerUploadFormProps> = ({
 }) => {
   const supabase = createClientComponentClient();
   const { state, workspaceId, folderId, dispatch } = useAppState();
+  const { toast } = useToast();
   const {
     register,
     handleSubmit,
