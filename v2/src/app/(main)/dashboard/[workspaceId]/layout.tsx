@@ -19,7 +19,7 @@ const WorkspaceLayout: React.FC<WorkspaceLayoutProps> = ({
       <MobileSidebar>
         <Sidebar params={params} className="w-screen inline-block sm:hidden" />
       </MobileSidebar>
-      <div className="border-l-[1px] w-full relative overflow-scroll">
+      <div className="border-l-[1px] w-full relative overflow-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
         {children}
       </div>
     </main>

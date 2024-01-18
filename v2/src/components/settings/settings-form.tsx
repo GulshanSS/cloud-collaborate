@@ -291,7 +291,7 @@ const SettingsForm = () => {
               <span className="text-sm text-muted-foreground">
                 Collaborators {collaborators.length || ""}
               </span>
-              <ScrollArea className="h-[120px] overflow-y-scroll w-full rounded-md border border-muted-foreground/20">
+              <ScrollArea className="h-[120px] overflow-y-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] w-full rounded-md border border-muted-foreground/20">
                 {collaborators.length ? (
                   collaborators.map((collaborator) => (
                     <div
