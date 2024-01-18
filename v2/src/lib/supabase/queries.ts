@@ -60,7 +60,6 @@ export const updateWorkspace = async (
   workspaceId: string,
   workspace: Partial<Workspace>
 ) => {
-  if(!workspaceId) return;
   try {
     await db
       .update(workspaces)
