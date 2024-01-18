@@ -36,7 +36,7 @@ const UserCard: React.FC<UserCardProps> = async ({ subscription }) => {
   };
 
   return (
-    <article className="hidden sm:flex justify-center items-center px-4 py-2 rounded-3xl">
+    <article className="hidden sm:flex justify-between items-center p-2 rounded-3xl">
       <aside className="flex justify-center items-center gap-2">
         <Avatar>
           <AvatarImage src={profile.avatarUrl} />
@@ -48,8 +48,8 @@ const UserCard: React.FC<UserCardProps> = async ({ subscription }) => {
           <span className="text-muted-foreground">
             {subscription?.status === "active" ? "Pro Plan" : "Free Plan"}
           </span>
-          <small className="w-[100px] overflow-hidden overflow-ellipsis">
-            {profile.email}
+          <small className="w-[120px] overflow-hidden overflow-ellipsis">
+            {profile.email?.split("@")[0].toString() || "CloudCollaborate"}
           </small>
         </div>
       </aside>

@@ -648,7 +648,7 @@ const QuillEditor: React.FC<QuillEditorProps> = ({
         <div className="w-full self-center max-w-[800px] flex flex-col px-7 lg:my-8">
           <div className="text-[80px]">
             <EmojiPicker getValue={onChangeIcon}>
-              <div className="w-[100px] cursor-pointer transition-colors h-[100px] flex items-center jutify-center hover:bg-muted-foreground rounded-xl">
+              <div className="w-[100px] h-[100px] cursor-pointer transition-colors flex items-center justify-center hover:bg-muted-foreground rounded-xl">
                 {details.iconId}
               </div>
             </EmojiPicker>
