@@ -37,6 +37,11 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       setIsConnected(false);
     });
 
+    socketInstance.on("connection_error", async (err: any) => {
+      if (err instanceof Error) console.log("connection error", err.message);
+      fetch("/api/socket/io");
+    });
+
     setSocket(socketInstance);
 
     return () => {
